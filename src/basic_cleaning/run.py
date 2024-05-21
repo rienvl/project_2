@@ -26,17 +26,21 @@ def go(args):
     df = pd.read_csv(artifact_local_path)
     logger.info('OK - Read dataframe with %d rows', df.shape[0])
 
-    # remove Nans
-    df.fillna({'last_review': '2000-01-01'}, inplace=True)
-    df.fillna({'reviews_per_month': 0}, inplace=True)
+    # data cleaning derived from EDA step
+    idx = df['price'].between(args.min_price, args.max_price)
+    df = df[idx].copy()
+    # Convert last_review to datetime
+    df['last_review'] = pd.to_datetime(df['last_review'])
     logger.info('OK - basic cleaning of dataframe')
 
     # write dataframe to local csv file
-    local_file = f"{args.artifact_name}"
-    df.to_csv(local_file)
+    local_file = f"{args.output_artifact}"
+    df.to_csv(local_file, index=False)  # remove index column, otherwise data checks will fail
 
     # create wandb artifact
-    output_artifact = wandb.Artifact(name=args.artifact_name, type=args.artifact_type, description=args.artifact_description)
+    output_artifact = wandb.Artifact(name=args.output_artifact,
+                                     type=args.output_type,
+                                     description=args.output_description)
 
     # attach local csv file to artifact
     output_artifact.add_file(local_file)
@@ -45,7 +49,7 @@ def go(args):
     run.log_artifact(output_artifact)
 
     run.finish()
-    logger.info('OK - Logged artifact %s', args.artifact_name)
+    logger.info('OK - Logged artifact %s', args.output_artifact)
 
 
 if __name__ == "__main__":
@@ -60,17 +64,31 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "--artifact_name", type=str, help="Name for the artifact", required=True
+        "--output_artifact", type=str, help="Name for the artifact", required=True
     )
 
     parser.add_argument(
-        "--artifact_type", type=str, help="Type for the artifact", required=True
+        "--output_type", type=str, help="Type for the artifact", required=True
     )
 
     parser.add_argument(
-        "--artifact_description",
+        "--output_description",
         type=str,
         help="Description for the artifact",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--min_price",
+        type=float,
+        help="Minimum price used to remove outliers",
+        required=True,
+    )
+
+    parser.add_argument(
+        "--max_price",
+        type=float,
+        help="Maximum price used to remove outliers",
         required=True,
     )
 

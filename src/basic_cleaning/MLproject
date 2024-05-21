@@ -7,15 +7,21 @@ entry_points:
       input_artifact:
         description: Name of the W&B input artifact
         type: str
-      artifact_name:
+      output_artifact:
         description: Name of the W&B artifact that will be created at output
         type: str
-      artifact_type:
+      output_type:
         description: Type of the output artifact
         type: str
-      artifact_description:
+      output_description:
         description: Description of the output artifact
         type: str
+      min_price:
+        description: Minimum price used to remove outliers
+        type: float
+      max_price:
+        description: Maximum price used to remove outliers
+        type: float
 
     command: >-
-      python run.py --input_artifact {input_artifact} --artifact_name {artifact_name} --artifact_type {artifact_type} --artifact_description {artifact_description}
+      python run.py --input_artifact {input_artifact} --output_artifact {output_artifact} --output_type {output_type} --output_description {output_description} --min_price {min_price} --max_price {max_price}
