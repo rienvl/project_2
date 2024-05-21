@@ -71,8 +71,8 @@ def go(config: DictConfig):
                 os.path.join(root_path, "src", "data_check"),
                 "main",
                 parameters={
-                    "csv": "clean_data.csv:latest",  # Input CSV file to be tested
-                    "ref": config["etl"]["sample"] + ":latest",  # Reference CSV file to compare the new csv to
+                    "csv": "clean_sample.csv:latest",  # Input CSV file to be tested
+                    "ref": "clean_sample.csv:reference",  # Reference CSV file to compare the new csv to
                     "kl_threshold": config["data_check"]["kl_threshold"],
                     "min_price": config["etl"]["min_price"],
                     "max_price": config["etl"]["max_price"]
