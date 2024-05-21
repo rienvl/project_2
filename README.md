@@ -1,3 +1,7 @@
+# links to github and W&B:
+link github: https://github.com/rienvl/project_2.git
+link W&B: https://wandb.ai/my_wandb_page/nyc_airbnb/overview?nw=nwusermbvanleeuwen2003
+
 # Build an ML Pipeline for Short-Term Rental Prices in NYC
 You are working for a property management company renting rooms and properties for short periods of 
 time on various rental platforms. You need to estimate the typical price for a given property based 
@@ -38,13 +42,13 @@ and click on `Fork` in the upper right corner. This will create a fork in your G
 repository that is under your control. Now clone the repository locally so you can start working on it:
 
 ```
-git clone https://github.com/[your github username]/build-ml-pipeline-for-short-term-rental-prices.git
+git clone https://github.com/rienvl/project_2.git
 ```
 
 and go into the repository:
 
 ```
-cd build-ml-pipeline-for-short-term-rental-prices
+cd project_2
 ```
 Commit and push to the repository often while you make progress towards the solution. Remember 
 to add meaningful commit messages.
@@ -69,7 +73,7 @@ then paste your key into this command:
 
 You should see a message similar to:
 ```
-wandb: Appending key for api.wandb.ai to your netrc file: /home/[your username]/.netrc
+wandb: Appending key for api.wandb.ai to your netrc file: /home/mbvanleeuwen2003/.netrc
 ```
 
 ### Cookie cutter
