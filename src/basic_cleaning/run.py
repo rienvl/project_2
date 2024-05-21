@@ -29,9 +29,14 @@ def go(args):
     # data cleaning derived from EDA step
     idx = df['price'].between(args.min_price, args.max_price)
     df = df[idx].copy()
-    # Convert last_review to datetime
+    # convert last_review to datetime
     df['last_review'] = pd.to_datetime(df['last_review'])
     logger.info('OK - basic cleaning of dataframe')
+
+    # extra step after running test on sample2.csv:
+    # drop rows in the dataset that are not in the proper geolocation
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()
 
     # write dataframe to local csv file
     local_file = f"{args.output_artifact}"
