@@ -28,6 +28,9 @@ def go(config: DictConfig):
     os.environ["WANDB_PROJECT"] = config["main"]["project_name"]
     os.environ["WANDB_RUN_GROUP"] = config["main"]["experiment_name"]
 
+    # You can get the path at the root of the MLflow project with this:
+    root_path = hydra.utils.get_original_cwd()
+
     # Steps to execute
     steps_par = config['main']['steps']
     active_steps = steps_par.split(",") if steps_par != "all" else _steps
@@ -50,10 +53,17 @@ def go(config: DictConfig):
             )
 
         if "basic_cleaning" in active_steps:
-            ##################
-            # Implement here #
-            ##################
-            pass
+            _ = mlflow.run(
+            os.path.join(root_path, 'src', "basic_cleaning"),
+                "main",
+                parameters={
+                    "input_artifact": "sample.csv:latest",
+                    "artifact_name": "clean_data.csv",
+                    "artifact_type": "clean_data",
+                    "artifact_description": "Data after basic cleaning"
+                }
+            )
+
 
         if "data_check" in active_steps:
             ##################
