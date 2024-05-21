@@ -116,6 +116,10 @@ def go(args):
 
         run.log_artifact(artifact)
 
+        # Make sure the artifact is uploaded before the temp dir
+        # gets deleted
+        artifact.wait()
+
     # Plot feature importance
     logger.info("Plot feature importance")
     fig_feat_imp = plot_feature_importance(sk_pipe, processed_features)
